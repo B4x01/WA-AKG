@@ -1,10 +1,15 @@
+version: '3.8'
+
 services:
   db:
     image: mysql:8.0
+    container_name: wa-akg-db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: wa_akg
+    ports:
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -17,7 +22,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: wa-akg-app
     restart: always
+    ports:
+      - "3000:3000"
     environment:
       - DATABASE_URL=mysql://root:rootpassword@db:3306/wa_akg
       - AUTH_SECRET=w6PO4cY5PgJ0VSipJHLK7z0PLx/tWCrYROqGDPIjsm8=
